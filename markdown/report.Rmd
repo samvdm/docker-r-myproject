@@ -1,0 +1,51 @@
+---
+title: "New York Trip Fare Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Introduction
+
+This R markdown provides an analysis of taxi trip data distribution.
+
+
+## Initial Exploratory Analysis
+
+We run an initially exploratory analysis to understand the scope of our data and characteristics of the dependent variable "fare_amount". The script that generates the results for this analysis is titled "InitialAnalysis" and is  located in the R folder. The figures below show the initial distribution of the trip fare, along with the Box Cox transformation. Statistical models that make normality assumption of the data are known to produce more accurate results when data is less skewed. Box Cox transformation is used in this initial analysis instead of log transform since we have zero and negative trip fare data values. Later we will remove these values. Skewness values between 0 and 1 are according to the literature acceptable. 
+
+
+```{r message=FALSE, warning=FALSE, paged.print=TRUE, echo = FALSE}
+
+dat <- fread("C:/Users/samantha.vandermerwe/Documents/GitHub/docker-r-myproject/data/combined.csv")
+dat <- dat[,-1]
+#dependent variable analysis
+p1 <- ggplot(data = dat, aes(dat$fare_amount)) + 
+  geom_histogram()
+
+p1
+```
+
+
+```{r message=FALSE, warning=FALSE, paged.print=TRUE, echo = FALSE}
+
+#box cox transform
+q  <- forecast::BoxCox(dat$fare_amount, lambda = 0.15)
+new_dt <- data.table(q)
+
+p2 <- ggplot(data = new_dt, aes(new_dt$q)) + 
+  geom_histogram()
+
+p2
+```
+
+
+```{r message=FALSE, warning=FALSE, paged.print=TRUE, echo = FALSE}
+paste("Initial skewness Value" ,round(skewness(dat$fare_amount), 3))
+paste("skewness after BoxCox Transformation", round(skewness(q),3))
+```
+
+
