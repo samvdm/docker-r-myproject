@@ -19,8 +19,12 @@ We run an initially exploratory analysis to understand the scope of our data and
 
 
 ```{r message=FALSE, warning=FALSE, paged.print=TRUE, echo = FALSE}
+library(data.table)
+library(moments)
+library(ggplot2)
+library(forecast)
 
-dat <- fread("C:/Users/samantha.vandermerwe/Documents/GitHub/docker-r-myproject/data/combined.csv")
+dat <- fread("/data/combined.csv")
 dat <- dat[,-1]
 #dependent variable analysis
 p1 <- ggplot(data = dat, aes(dat$fare_amount)) + 

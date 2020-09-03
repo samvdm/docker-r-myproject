@@ -5,19 +5,23 @@ FROM docker-r-studio
 LABEL maintainer='vladimir.zhbanko@gmail.com'
 
 ## create directories
-RUN mkdir -p /01_data
-RUN mkdir -p /02_code
-RUN mkdir -p /03_output
+RUN mkdir -p /data
+RUN mkdir -p /R
+RUN mkdir -p /markdown
+RUN mkdir -p /output
 
 ## add specific files
-COPY /01_data/gapminder_example.Rmd /01_data/gapminder_example.Rmd
+COPY /markdown/report.Rmd /markdown/report.Rmd
+COPY /data/combined.csv /data/combined.csv
+COPY R/install_packages.R /R/install_packages.R
 
 ## copy working script
-COPY /02_code/script2run.R /02_code/script2run.R
+COPY /R/script2run.R /R/script2run.R
 
 ## run the script on running container
+RUN Rscript /R/install_packages.R
 #CMB bash #use this command to check if the files ar copied
-CMD Rscript /02_code/script2run.R
+CMD Rscript /R/script2run.R
 
 ## command to run this container
-#docker run -it --rm -v /c/Users/samantha.vandermerwe/Documents/GitHub/docker-r-r/03_output:/03_output szambezi/docker-r-r
+#docker run -it --rm -v /c/Users/samantha.vandermerwe/Documents/GitHub/docker-r-myproject/output:/output docker-r-myproject
