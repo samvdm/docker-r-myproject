@@ -1,8 +1,8 @@
 # building docker image to use R-Studio in a browser
 
-FROM docker-r-studio
+FROM rocker/verse:latest
 
-LABEL maintainer='vladimir.zhbanko@gmail.com'
+LABEL maintainer='samzeecodes@gmail.com'
 
 ## create directories
 RUN mkdir -p /data
