@@ -1,2 +1,2 @@
-# docker-r-r
+# docker-r-myproject
  Reproducible research docker
